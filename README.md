@@ -76,6 +76,7 @@ z.B.:
 
 ### Verfügbare Optionen zur Analyse der JSON Dateien
 
+```
 usage: analyze_json.py [-h] [--all-queries] [--query1] [--query2] [--query3]
                        [--query4] [--query5] --number-of-lines NUMBER_OF_LINES
 
@@ -91,7 +92,7 @@ optional arguments:
   --query5              Query5: Most reviews in a city
   --number-of-lines NUMBER_OF_LINES
                         Specify how many rows should be returned (Default: 20)
-
+```
 
 ## Zusätzliche Kommentare
 
