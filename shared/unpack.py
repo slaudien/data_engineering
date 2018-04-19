@@ -65,7 +65,7 @@ class UnpackTar(object):
         if os.path.exists(self.output_path):
             print "Data already exists in the output path: "+ self.output_path
             #ToDo: Enable check for deleting old data
-            self.clean_old_data_files
+            #self.clean_old_data_files
         else:
             print "Extracting the data in "+ self.output_path
             os.makedirs(self.output_path)
