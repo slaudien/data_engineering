@@ -12,8 +12,7 @@
    ... wenn das System u.a. über mehrere Knoten verteilt werden könnte. 
 - Mesos wäre die erste Technologie, die die Performance dieses
   Programms verbessern könnte. Dadurch wäre eine Lastverteilung auf mehrere 
-  Konten möglich. Dafür würde man mehrere Docker Container für 
-  einen Knoten des Mesos Clusters erstellen. 
+  Konten möglich. Ein Docker Container könnte dabei pro Knoten erstellt werden.
 - Kafka könnte seinen Einsatz finden, damit die Daten direkt beim Entpacken
   der tar-files in eine Kafka Queue gestreamt werden. Zudem könnte
   mit Hilfe von Kafka bereits eine Verteilung der Daten auf mehrere Knoten erfolgen.
@@ -24,7 +23,7 @@
   der analytischen Fähigkeiten von Spark nicht notwendig.
 
 
-# 2. Verwendung des Programs:
+# 2. Verwendung des Programs
 
 ## Setup des Docker containers
 
@@ -34,30 +33,32 @@
 ### Starten des Docker images (Anpassen von Pfaden)
 `shared_docker_host_path=<Pfad zu diesem Projekt>/shared`
 
-e.g. `shared_docker_host_path=/Users/NY_USER/git/data_engineering/shared`
+z.B.: 
+`shared_docker_host_path=/Users/NY_USER/git/data_engineering/shared`
 
 `docker run -d -it --name=ny_spark_container -v ${shared_docker_host_path}:/home/host  ny_data_engineering:latest`
 
-### Prüfen ob der Docker Container läuft:
-`docker ps`
-
-## Entpacken der Tar-files: 
+## Entpacken der Tar-files
 
 Bitte laden Sie das Yelp Datenfile selbstständig herunter.
-Im Weiteren wird erklärt wo es abgelegt werden sollte.
+Im Weiteren wird erklärt wo diese abgelegt werden sollten.
 
 ### Option 1 - Ausführung im Docker Container
-Befinden sich in einem beliebigen Ordner des Docker Containers.
+Das tar-file Befindet sich in einem beliebigen Ordner des Docker Containers.
 (Zum Kopieren des tar-files in den Docker Container kann unter Anderem das shared directory verwendet werden.)
+
 Einloggen in den Container: `docker exec -it ny_spark_container bash`
 
-Ausführen des Unpack-Programms: `/home/spark/bin/spark-submit unpack.py --tar-location <path_to_tar_in_container>`
+Ausführen des Unpack-Programms: 
+`/home/spark/bin/spark-submit unpack.py --tar-location <path_to_tar_in_container>`
 
 ### Option 2 - Ausführung auf dem Docker Host
 Das tar-file mit den Daten befindet sich im shared directory des Docker Containers mit dem Docker Host:
+
 `docker exec -it ny_spark_container /home/spark/bin/spark-submit /home/host/unpack.py --tar-location /home/host/<tar-file-name>`
 
-e.g.: `docker exec -it ny_spark_container /home/spark/bin/spark-submit /home/host/unpack.py --tar-location /home/host/yelp_dataset.tar`
+z.B.: 
+`docker exec -it ny_spark_container /home/spark/bin/spark-submit /home/host/unpack.py --tar-location /home/host/yelp_dataset.tar`
 
 ## Analysieren der Json-Files
 (Beinhaltet Einlesen der Json-Files in Spark)
@@ -69,11 +70,11 @@ Ausführen des Analyse-Programms: `/home/spark/bin/spark-submit /home/host/analy
 ### Option 2 - Ausführung auf dem Docker Host
 `docker exec -it ny_spark_container /home/spark/bin/spark-submit /home/host/analyze_json.py <option>`
 
-e.g.:
+z.B.:
 `docker exec -it ny_spark_container /home/spark/bin/spark-submit /home/host/analyze_json.py --query1`
 
 
-### Verfügbare Optionen zur Analyse der JSON Dateien:
+### Verfügbare Optionen zur Analyse der JSON Dateien
 
 usage: analyze_json.py [-h] [--all-queries] [--query1] [--query2] [--query3]
                        [--query4] [--query5] --number-of-lines NUMBER_OF_LINES
